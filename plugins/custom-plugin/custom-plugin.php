@@ -1,31 +1,39 @@
+<?php
 /*
-Plugin Name:  WPBeginner Plugin Tutorial
-Plugin URI:   https://www.wpbeginner.com
-Description:  A short little description of the plugin. It will be displayed on the Plugins page in WordPress admin area.
-Version:      1.0
-Author:       WPBeginner
-Author URI:   https://www.wpbeginner.com
-License:      GPL2
-License URI:  https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain:  wpb-tutorial
-Domain Path:  /languages
+Plugin Name: Custom Plugin
+Description: A custom WordPress plugin that adds an admin dashboard page.
+Version: 1.0
+Author: Rob A. Gruen
+License: GPL2
 */
 
+// Exit if accessed directly
+if (!defined('ABSPATH')) {
+  exit;
+}
+
+// Add admin menu
+function custom_admin_dashboard_page()
+{
+  add_menu_page(
+    'Custom Dashboard',       // Page title
+    'Custom Dashboard',       // Menu title
+    'manage_options',         // Capability
+    'custom-dashboard',       // Menu slug
+    'custom_dashboard_content', // Callback function
+    'dashicons-admin-generic', // Icon
+    2                         // Position
+  );
+}
+add_action('admin_menu', 'custom_admin_dashboard_page');
+
+// Content of the custom dashboard page
+function custom_dashboard_content()
+{
+?>
+  <div class="wrap">
+    <h1>Welcome to the Custom Dashboard</h1>
+    <p>This is a custom admin dashboard page.</p>
+  </div>
 <?php
-function wpb_follow_us($content) {
- 
-// Only do this when a single post is displayed
-if ( is_single() ) { 
- 
-// Message you want to display after the post
-// Add URLs to your own Twitter and Facebook profiles
- 
-$content .= '<p class="follow-us">If you liked this article, then please follow us on <a href="http://twitter.com/wpbeginner" title="WPBeginner on Twitter" target="_blank" rel="nofollow">Twitter</a> and <a href="https://www.facebook.com/wpbeginner" title="WPBeginner on Facebook" target="_blank" rel="nofollow">Facebook</a>.</p>';
- 
 }
-// Return the content
-return $content; 
- 
-}
-// Hook our function to WordPress the_content filter
-add_filter('the_content', 'wpb_follow_us'); 
